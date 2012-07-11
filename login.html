@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Problem Judge</title>
+		<title>Login</title>
 		<meta name="description" content="Contest problem grader">
 		<meta name="author" content="stanley cen">
 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -15,25 +15,33 @@
 					var w = $(window).width();
 					var h = $(window).height();
 					var form = $("#login_form");
-					form.css("position", "absolute").css("left", ((w / 2) - (form.width() / 2)) + "px").css("top", ((h / 2) - (form.height() / 2)) + "px");
+					form.css("position", "absolute").css("left", ((w / 2) - (form.width() / 2)) + "px").css("top", ((h / 2) - (form.height() / 2) - (form.height() / 4)) + "px");
 				}
-				$(window).resize(recenter);
+				$(window).resize(function() {
+					recenter();
+				});
 				recenter();
 				$("#login_form").css("display", "inline");
 				$("#username").focus();
 			});
 		</script>
 	</head>
-	<body>
+	<body class="login_body">
 		<div id="center_form">
 			<div class="span4">
 				<form class="well" id="login_form">
+					<div id="login_title"><h1>WCS Judge</h1></div>
 					<div class="input-prepend">
-						<span class="add-on"><i class="icon-user"></i></span><input id="username" type="text" class="span3" placeholder="username">
+						<span class="add-on"><i class="icon-user"></i></span><input id="username" type="text" class="span3" placeholder="username" autocomplete="off">
 					</div>
 					<div class="input-prepend">
-						<span class="add-on"><i class="icon-asterisk"></i></span><input id="password" type="password" class="span3" placeholder="password">
+						<span class="add-on"><i class="icon-edit"></i></span><input id="password" type="password" class="span3" placeholder="password">
 					</div>
+					<div id="buttons">
+						<button id="submit" type="submit" class="btn btn-primary">Sign in</button>
+						<button class="btn" id="register">Register</button>
+					</div>
+					<div class="copyright"><p style="margin-bottom: 0px;">Copyright 2012 &copy; Stanley Cen</p></div>
 				</form>
 			</div>
 		</div>
