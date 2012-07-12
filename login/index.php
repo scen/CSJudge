@@ -1,5 +1,7 @@
 <?php
-include_once "../php/conf.php";
+define('__ROOT__', "/var/www/judge/");
+require_once __ROOT__ . "/php/mysql_info.php";
+require_once __ROOT__ . "/php/conf.php";
 session_start();
 
 $errors = array();
@@ -10,7 +12,7 @@ $registerError = false;
 
 error_log(print_r($_POST, true));
 
-if ($_POST['isRegister'] == "1")
+if (isset($_POST['isRegister'] )&& $_POST['isRegister'] == "1")
 {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
@@ -25,7 +27,7 @@ if ($_POST['isRegister'] == "1")
 		$errors[] = "Password < 50 ASCII chars.";
 		$passwordError = true;
 	}
-	if (!bIsValidEmail($email))
+	if (!bIsValidEmail($email) || strlen($email) > 50)
 	{
 		$errors[] = "Please input a valid email address.";
 		$emailError = true;
@@ -33,10 +35,25 @@ if ($_POST['isRegister'] == "1")
 	$registerError = $usernameError || $passwordError || $emailError;
 	if (!$registerError)
 	{
+		sql_init();
+		$username = mysql_real_escape_string($username);
+		$password = mysql_real_escape_string($password);
+		$email = mysql_real_escape_string($email);
+		$query = 'INSERT INTO users (username, password, email) VALUES ("'.$username.'","'.gethash($password).'", "'.$email.'");';
+		$res = mysql_query($query);
+		if (!$res)
+		{
+			$errors[] = "An unknown error occured.";
+			$registerError = true;
+		}
+		else
+		{
 
+		}
+		sql_clean();
 	}
 }
-else
+else if(isset($_POST['isRegister']) && $_POST['isRegister'] == "0")
 {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
@@ -56,9 +73,11 @@ else
 		$username = mysql_real_escape_string($username);
 		$password = mysql_real_escape_string($password);
 		$query = 'SELECT * FROM users WHERE username="'.$username.'" AND password="'.gethash($password).'";';
+		error_log($query);
 		$res = mysql_query($query);
 		if (mysql_num_rows($res) == 1)
 		{
+			$_SESSION['loggedin'] = true;
 			$_SESSION['username'] = $username;
 			header("Location: ".$_ROOT);
 		}

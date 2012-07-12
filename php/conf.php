@@ -6,8 +6,8 @@ $g_con = NULL;
 
 function sql_init()
 {
-	$g_con = mysql_connect($MYSQL_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD);
-	mysql_select_db($MYSQL_DB_NAME);
+	$g_con = mysql_connect(_MYSQL_SERVER, _MYSQL_USERNAME, _MYSQL_PASSWORD);
+	mysql_select_db(_MYSQL_DB_NAME);
 }
 
 function sql_clean()
@@ -22,7 +22,7 @@ function bIsValidEmail($email)
 
 function gethash($pwd)
 {
-	return hash("sha256", $SALT . $pwd . $SALT);
+	return hash("sha256", _MYSQL_SALT . $pwd . _MYSQL_SALT);
 }
 
 ?>
