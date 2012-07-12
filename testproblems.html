@@ -23,12 +23,34 @@
 		{
 			window.prettyPrint && prettyPrint();
 			$("#paste_source_code").click(function() {
+				event.preventDefault();
 				$("#upload_source_code").removeClass("active");
 				$(this).addClass("active");
+				$("#isUpload").val("0");
+				$("#upload_file").fadeOut(100, function() {
+					$("#source_code").fadeIn();
+				});
+				$("#upload_file").val("");
 			});
 			$("#upload_source_code").click(function() {
+				event.preventDefault();
 				$("#paste_source_code").removeClass("active");
 				$(this).addClass("active");
+				$("#isUpload").val('1');
+				$("#source_code").fadeOut(100, function() {
+					$("#upload_file").fadeIn();
+				});
+				$("#source_code").val("");
+			});
+			$("#reset_btn").click(function() {
+				$("#source_code").val("");
+				$("#upload_file").val("");
+				$("#paste_source_code").removeClass("active");
+				$("#upload_source_code").addClass("active");
+				$("#source_code").fadeOut(100, function() {
+					$("#upload_file").fadeIn();
+				});
+				$("#problem_code").val("");
 			});
 		});
 		</script>
@@ -87,6 +109,7 @@
 		      					<label class="control-label" for="problem_code">Problem code: <abbr title="The alphanumeric code text on each problem's page."><i class="icon-question-sign"></i></abbr></label>
 		      					<div class="controls">
 		      						<input type="text" autocomplete="off">
+		      						<input type="hidden" id="isUpload" value="1">
 		      					</div>
 		      				</div>
 		      				<div class="control-group">
@@ -103,14 +126,19 @@
 		      					</div>
 		      				</div>
 		      				<div class="control-group">
-								<label class="control-label" for="upload_file">Input Source Code:</label>
+								<label class="control-label" for="">Input Source Code:</label>
 		      					<div class="controls">
 		      						<ul class="nav nav-pills">
-										<li class="active" id="upload_source_code"><a href="">Upload Source Code</a></li>
-										<li id="paste_source_code"><a href="">Paste Source Code</a></li>
+										<li class="active" id="upload_source_code"><a href="#">Upload Source Code</a></li>
+										<li id="paste_source_code"><a href="#">Paste Source Code</a></li>
 									</ul>
 									<input class="input-file" id="upload_file" type="file">
+									<textarea id="source_code" placeholder=" source code..."></textarea>
 		      					</div>
+		      				</div>
+		      				<div class="controls">
+		      					<button class="btn btn-info" onclick="">Submit</button>
+								<button class="btn" id="reset_btn" type="button">Reset</button>
 		      				</div>
 	      				</fieldset>
       				</form>

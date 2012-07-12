@@ -23,3 +23,11 @@
 	text-align: center;
 	margin-bottom: 0px;
 }
+#source_code
+{
+	width: 85%;
+	text-align: left;
+	height: 500px;
+	resize: vertical;
+	display: none;
+}
