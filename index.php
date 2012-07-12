@@ -78,12 +78,13 @@
       			<div class="news">
       				<h3>July 11, 2012</h3>
       				<ul>
-      					<li>Login and index pages finished.</li>
+      					<li>Login and index pages finished</li>
       					<li>Revamped UI</li>
+      					<li>Sign in now works</li>
       				</ul>
       				<h3>July 8, 2012</h3>
       				<ul>
-      					<li>Started construction on the site.</li>
+      					<li>Started construction on the site</li>
       				</ul>
       			</div>
         	</div>
