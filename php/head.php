@@ -10,6 +10,7 @@ if ((!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) && (!isset
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<meta charset="utf-8">
 		<title><?php if (isset($_TITLE)) echo $_TITLE; else echo 'WCS Judge'; ?></title>
 		<meta name="description" content="Contest problem grader">
 		<meta name="author" content="stanley cen">

@@ -119,20 +119,19 @@ sql_clean();
 				<th style="width:6%;">Solved by</th>
 			</thead>
 			<tbody>
-				<tr>
-					<?php
-					foreach ($probs as $prob) {
-						if (!isset($prob['pid'])) continue;
-						error_log(print_r($prob, true));
-						echo "<td>" . getCatName($prob['cid'], $categories) . '</td>';
-						echo "<td>" . ((isset($prob['level']) && !empty($prob['level'])) ? $prob['level'] : 'None') . '</td>';
-						echo "<td>" . ((isset($prob['date']) && !empty($prob['date'])) ? $prob['date'] : 'None') . '</td>';
-						echo "<td><a href='".$_ROOT."problem/?name=".$prob['code']."'>" . $prob['name'] . '</a></td>';
-						echo "<td>" . $prob['point'] . '</td>';
-						echo "<td>" . $prob['solvers'] . '</td>';
-					}
-					?>
-				</tr>
+				<?php
+				foreach ($probs as $prob) {
+					if (!isset($prob['pid'])) continue;
+					echo "<tr>";
+					echo "<td>" . getCatName($prob['cid'], $categories) . '</td>';
+					echo "<td>" . ((isset($prob['level']) && !empty($prob['level'])) ? $prob['level'] : 'None') . '</td>';
+					echo "<td>" . ((isset($prob['date']) && !empty($prob['date'])) ? $prob['date'] : 'None') . '</td>';
+					echo "<td><a href='".$_ROOT."problem/?name=".$prob['code']."'>" . $prob['name'] . '</a></td>';
+					echo "<td>" . $prob['point'] . '</td>';
+					echo "<td>" . $prob['solvers'] . '</td>';
+					echo "</tr>";
+				}
+				?>
 			</tbody>
 		</table>
 	</div>

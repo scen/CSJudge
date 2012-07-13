@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title><?php if (isset($_TITLE)) echo $_TITLE; else echo 'WCS Judge'; ?></title>
+		<meta name="description" content="Contest problem grader">
+		<meta name="author" content="stanley cen">
+		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+		<link href="../css/main.css" rel="stylesheet">
+		<link href="../gcp/prettify.css" type="text/css" rel="stylesheet" />
+		<script src="../js/main.js" type="text/javascript"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+		<script src="../bootstrap/js/bootstrap-dropdown.js" type="text/javascript"></script>
+		<script type="text/javascript" src="gcp/prettify.js"></script>
+		<script src="../bootstrap/js/bootstrap-collapse.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		$(document).ready(function()
+		{
+			window.prettyPrint && prettyPrint();
+		});
+		</script>
+	</head>
+	<body>
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            			<span class="icon-bar"></span>
+            			<span class="icon-bar"></span>
+            			<span class="icon-bar"></span>
+          			</a>
+			        <!--Replace this "logo" -->
+			        <a class="brand" href="#">WCS Judge</a>
+			        <div class="btn-group pull-right">
+			        	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+			        		<i class="icon-user"></i>
+			        		stanleyc
+			        		<span class="caret"></span>
+			        	</a>
+			        	<ul class="dropdown-menu">
+			        		<li><a href="#">My Account</a></li>
+			        		<li><a href="#">My Submissions</a></li>
+				            <li class="divider"></li>
+				            <li><a href="logout/">Sign out</a></li>
+			        	</ul>
+			        </div>
+			        <div class="nav-collapse">
+			        	<ul class="nav">
+			        		<li><a href=""><!-- <i class="icon-home icon-white"></i> -->main</a></li>
+			        		<li><a href="problems/"><!-- <i class="icon-file icon-white"></i> -->problems</a></li>
+			        		<li><a href="submissions/"><!-- <i class="icon-folder-open icon-white"></i> -->submissions</a></li>
+			        		<li><a href="submit/"><!-- <i class="icon-upload icon-white"></i> -->submit</a></li>
+			        		<li><a href="contests/"><!-- <i class="icon-book icon-white"></i> -->contests</a></li>
+			        		<li><a href="users/"><!-- <i class="icon-user icon-white"></i> -->users</a></li>
+			        		<li><a href="help/"><!-- <i class="icon-comment icon-white"></i> -->help</a></li>
+			        		<li><a href="about/">about</a></li>
+			        	</ul>
+			        </div>
+	          	</div>
+	      	</div>
+      	</div>
+      	<div class="container-fluid addpad">
+      		<h1>Help</h1><hr>
+      		<h3>Overview</h3>
+      		<hr>
+      		<p>
+      			On the <code>problems</code> page, you'll find an archive of problems where you can submit solutions to. Each problem has a unique alphanumeric code which will be used on the <code>submit</code> page.<br><br>
+      			Each problem has it's own submit button; clicking this will take you to the <code>submit</code> page and automatically fill in the problem code for you. You should then pick a language and either upload a file containing your code, or paste your code into the box. Your code must weigh less than <code>1 megabyte</code> before compilation. <br>
+
+      		</p>
+      		
+			<hr>
+        	<div class="copyright"><p style="margin-bottom: 0px;">Copyright 2012 &copy; Stanley Cen</p></div>
+    	</div>
+	</body>
+</html>
