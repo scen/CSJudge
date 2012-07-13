@@ -31,3 +31,6 @@
 	resize: vertical;
 	display: none;
 }
+.addpad {
+    padding-top: 60px;
+}

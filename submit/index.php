@@ -1,7 +1,7 @@
 <?php
 define('__ROOT__', "/var/www/judge/");
-require_once __ROOT__ . "/php/head.php";
 $_ACTIVE = "submit";
+require_once __ROOT__ . "/php/head.php";
 ?>
 <script type="text/javascript">
 $(document).ready(function()
@@ -52,14 +52,14 @@ $(document).ready(function()
       						<div class="control-group">
 		      					<label class="control-label" for="problem_code">Problem code: <abbr title="The alphanumeric code text on each problem's page."><i class="icon-question-sign"></i></abbr></label>
 		      					<div class="controls">
-		      						<input type="text" autocomplete="off">
-		      						<input type="hidden" id="isUpload" value="1">
+		      						<input type="text" autocomplete="off" id="problem_code" name="problem_code">
+		      						<input type="hidden" id="isUpload" value="1" name="isUpload">
 		      					</div>
 		      				</div>
 		      				<div class="control-group">
 		      					<label class="control-label" for="prog_lang">Language:</label>
 		      					<div class="controls">
-		      						<select id="prog_lang">
+		      						<select id="prog_lang" name="prog_lang">
 		      							<option selected="selected">C++</option>
 		      							<option>C</option>
 		      							<option>Java</option>
@@ -76,8 +76,8 @@ $(document).ready(function()
 										<li class="active" id="upload_source_code"><a href="#">Upload Source Code</a></li>
 										<li id="paste_source_code"><a href="#">Paste Source Code</a></li>
 									</ul>
-									<input class="input-file" id="upload_file" type="file">
-									<textarea id="source_code" placeholder=" source code..."></textarea>
+									<input class="input-file" id="upload_file" type="file" name="upload_file">
+									<textarea id="source_code" placeholder=" source code..." name="source_code"></textarea>
 		      					</div>
 		      				</div>
 		      				<div class="controls">

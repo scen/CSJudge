@@ -17,17 +17,17 @@ if (isset($_POST['isRegister'] )&& $_POST['isRegister'] == "1")
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	$email = $_POST['email'];
-	if (strlen($username) > 20 || !ctype_alnum($username))
+	if (strlen($username) > 20 || !ctype_alnum($username) || strlen($username) == 0)
 	{
 		$errors[] = "Username < 20 alphanum chars.";
 		$usernameError = true;
 	}
-	if (strlen($password) > 50)
+	if (strlen($password) > 50|| strlen($password) == 0)
 	{
 		$errors[] = "Password < 50 ASCII chars.";
 		$passwordError = true;
 	}
-	if (!bIsValidEmail($email) || strlen($email) > 50)
+	if (!bIsValidEmail($email) || strlen($email) > 50|| strlen($email) == 0)
 	{
 		$errors[] = "Please input a valid email address.";
 		$emailError = true;
@@ -73,13 +73,17 @@ else if(isset($_POST['isRegister']) && $_POST['isRegister'] == "0")
 		$username = mysql_real_escape_string($username);
 		$password = mysql_real_escape_string($password);
 		$query = 'SELECT * FROM users WHERE username="'.$username.'" AND password="'.gethash($password).'";';
-		error_log($query);
 		$res = mysql_query($query);
 		if (mysql_num_rows($res) == 1)
 		{
 			$_SESSION['loggedin'] = true;
 			$_SESSION['username'] = $username;
 			header("Location: ".$_ROOT);
+		}
+		else
+		{
+			$errors[] = "Invalid credentials.";
+			$usernameError = $passwordError = false;
 		}
 	}
 }
