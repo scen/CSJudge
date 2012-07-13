@@ -34,7 +34,7 @@ function getCatName($cid, &$categories)
 
 
 $cat = mysql_real_escape_string($_POST['category']);
-if (isset($_POST['category']) && $_POST['category'] != 'ALL')
+if (isset($_POST['category']) && $_POST['category'] != 'All')
 {
 	$query = "SELECT * FROM categories WHERE name='". $cat . "';";
 	$ret = mysql_query($query);

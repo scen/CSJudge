@@ -1,6 +1,7 @@
 <?php
 include_once "mysql_info.php";
 $_ROOT = "/judge/";
+$_PROBLEMROOT = "/home/stanleyc/westviewcs/problems/";
 
 $g_con = NULL;
 
