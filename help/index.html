@@ -1,17 +1,18 @@
-<!DOCTYPE html>
+<!--SH!T LOST THIS FILE CUZ DISK QUOTE EXCEEDED --> <!-- good thing the live html version was cached -->
+<!doctype html>
 <html lang="en">
-	<head>
-		<title><?php if (isset($_TITLE)) echo $_TITLE; else echo 'WCS Judge'; ?></title>
+<head>
+		<title>&lt;?php if (isset($_TITLE)) echo $_TITLE; else echo 'WCS Judge'; ?&gt;</title>
 		<meta name="description" content="Contest problem grader">
 		<meta name="author" content="stanley cen">
 		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 		<link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 		<link href="../css/main.css" rel="stylesheet">
-		<link href="../gcp/prettify.css" type="text/css" rel="stylesheet" />
+		<link href="../gcp/prettify.css" type="text/css" rel="stylesheet">
 		<script src="../js/main.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 		<script src="../bootstrap/js/bootstrap-dropdown.js" type="text/javascript"></script>
-		<script type="text/javascript" src="gcp/prettify.js"></script>
+		<script type="text/javascript" src="../gcp/prettify.js"></script>
 		<script src="../bootstrap/js/bootstrap-collapse.js" type="text/javascript"></script>
 		<script type="text/javascript">
 		$(document).ready(function()
@@ -61,16 +62,49 @@
       	</div>
       	<div class="container-fluid addpad">
       		<h1>Help</h1><hr>
-      		<h3>Overview</h3>
+      		<div class="row-fluid">
+	      		<div class="span3">
+		      		<ul class="nav nav-tabs nav-stacked">
+		      			<li><a href="#overview">Overview</a></li>
+		      			<li><a href="#submitting">Submitting Source Code</a></li>
+					</ul>
+				</div>
+			</div>
+      		<h3 id="overview">Overview</h3>
       		<hr>
       		<p>
       			On the <code>problems</code> page, you'll find an archive of problems where you can submit solutions to. Each problem has a unique alphanumeric code which will be used on the <code>submit</code> page.<br><br>
-      			Each problem has it's own submit button; clicking this will take you to the <code>submit</code> page and automatically fill in the problem code for you. You should then pick a language and either upload a file containing your code, or paste your code into the box. Your code must weigh less than <code>1 megabyte</code> before compilation. <br>
-
-      		</p>
-      		
+      			Each problem has it's own submit button; clicking this will take you to the <code>submit</code> page and automatically fill in the problem code for you. You should then pick a language and either upload a file containing your code, or paste your code into the box. Your code must weigh less than <code>1 megabyte</code> before compilation. <br><br>
+      			Once you submit your code, your code will be compiled (if applicable), executed in a jail (chrooted to a single directory), and evaluated against multiple test cases. You will be taken to a page summarizing your results after this process finishes. <br><br>
+      			When you submit code, results, date, and a copy of your source code will be stored on the server. To view your post submissions, click your name in the top right corner and click <code>My Submissions</code>, <em>OR</em> navigate to the global submissions page and click <code>My Submissions</code> there. You will be able to see other peoples' source code if and only if you've solved the same problem.
+      		</p><br>
+      		<h3 id="submitting">Submitting Source Code</h3><hr>
+      		<p>
+      			A few guidelines on submitting code:
+      			</p><ul>
+      				<li>Input/Output should be from/to <code>stdin</code> and <code>stdout</code> respectively. Please do not flush your output after each line - this will make your program run slower. Yes, that means no using <code>std::endl</code>!</li>
+      				<li><strong>Do not</strong> prompt for input. The entire input file will be provided at runtime; if you prompt using stuff like <code>getchar()</code>, your program will <em>not</em> terminate.</li>
+      				<li>Your output must be in the exact same format as described in the problem. Extra newlines <strong>do</strong> matter, as well as spaces and punctuation.</li>
+      			</ul>
+      		<p></p>
+      		<p>
+      			What your program <strong>should not</strong> and <strong>cannot</strong> do (e.g. forbidden actions):
+      			</p><ul>
+      				<li>Modify the file system in any way unless otherwise noted by the problem</li>
+      				<li>Do anything related to networking (opening a socket, connecting to the internet)</li>
+      				<li>Interact with, examine, or enumerate other processes (other than your own, which you call kill)</li>
+      				<li>Read, Write, or Execute memory not within the address space allocated for your program</li>
+      				<li>Execute another program</li>
+      				<li>Use any system calls</li>
+      				<li>Dynamically load any shared modules not automatically loaded by the runtime and/or environment</li>
+      				<li>Attempt to circumvent the jail and/or protections</li>
+      			</ul>
+      		<p></p>
+      			<h5>Sample C++ Submission</h5><br>
+      			<pre class="prettyprint linenums"><ol class="linenums"><li class="L0"><span class="com">#include</span><span class="pln"> </span><span class="str">&lt;cstdio&gt;</span></li><li class="L1"><span class="pln">&nbsp;</span></li><li class="L2"><span class="kwd">int</span><span class="pln"> N</span><span class="pun">;</span></li><li class="L3"><span class="pln">&nbsp;</span></li><li class="L4"><span class="kwd">int</span><span class="pln"> main</span><span class="pun">(</span><span class="kwd">int</span><span class="pln"> argc</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">char</span><span class="pun">**</span><span class="pln"> argv</span><span class="pun">)</span></li><li class="L5"><span class="pun">{</span></li><li class="L6"><span class="pln">	scanf</span><span class="pun">(</span><span class="str">"%d"</span><span class="pun">,</span><span class="pln"> </span><span class="pun">&amp;</span><span class="pln">N</span><span class="pun">);</span></li><li class="L7"><span class="pln">	printf</span><span class="pun">(</span><span class="str">"%d\n"</span><span class="pun">,</span><span class="pln"> N</span><span class="pun">);</span><span class="pln">	</span></li><li class="L8"><span class="pln">	</span><span class="kwd">return</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span></li><li class="L9"><span class="pun">}</span></li></ol></pre>
+      		<p></p>
 			<hr>
-        	<div class="copyright"><p style="margin-bottom: 0px;">Copyright 2012 &copy; Stanley Cen</p></div>
+        	<div class="copyright"><p style="margin-bottom: 0px;">Copyright 2012 © Stanley Cen</p></div>
     	</div>
-	</body>
-</html>
+	
+</body></html>
