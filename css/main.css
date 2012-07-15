@@ -52,7 +52,7 @@ p.date_submission
 	margin:0px !important; 
 	text-align:center;
 	font-size:10px;
-	display: inline-block;
+	display: inline;
 }
 td.date_submission
 {

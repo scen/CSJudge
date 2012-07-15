@@ -55,7 +55,7 @@ require_once __ROOT__ . "/php/head.php";
 					echo 'ERROR';
 				}
 				$size = filesize($path);
-				echo fread($fp, $size);
+				echo htmlspecialchars(fread($fp, $size));
 				fclose($fp);
 				?></pre>
 		</div>
@@ -66,7 +66,7 @@ require_once __ROOT__ . "/php/head.php";
 						Actions
 					</li>
 					<li>
-						<a href="#"><i class="icon-upload"></i> Submit Solution</a>
+						<a href="<?php echo $_ROOT."submit/?name=".$prob['code']; ?>"><i class="icon-upload"></i> Submit Solution</a>
 					</li>
 					<li class="nav-header">
 						View Actions
@@ -79,6 +79,9 @@ require_once __ROOT__ . "/php/head.php";
 					</li>
 					<li>
 						<a href="#"><i class="icon-globe"></i> All Submissions</a>
+					</li>
+					<li>
+						<a href="#"><i class="icon-eye-open"></i> Analysis</a>
 					</li>
 				</ul>
 			</div>
