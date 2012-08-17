@@ -2,6 +2,19 @@
 $_ACTIVE = "submissions";
 define('__ROOT__', "/var/www/judge/");
 require_once __ROOT__ . "/php/head.php";
+
+$numPerPage = 10;
+
+sql_init();
+$curpage = 1;
+if (isset($_GET['page']))
+	$curpage = mysql_real_escape_string($_GET['page']);
+
+//Count it
+$query = "SELECT COUNT(*) AS NUM FROM submissions;";
+$res = mysql_query($query);
+$tmp = mysql_fetch_assoc($res);
+$cnt = $tmp['NUM'];
 ?>
 <div class="row-fluid" style="width: 98%; margin: 0 auto;">
 	<h1>Submissions</h1><hr>
@@ -11,7 +24,7 @@ require_once __ROOT__ . "/php/head.php";
 	<br>
 	<div class="pagination-centered pagination">
 	<ul>
-		<li><a href="#">First</a></li>
+		<li><a href="?page=1">First</a></li>
 		<li><a href="#">«</a></li>
 		<li class="active"><a href="#">1</a></li>
 		<li><a href="#">2</a></li>
@@ -34,28 +47,36 @@ require_once __ROOT__ . "/php/head.php";
 		<th>Actions</th>
 	</thead>
 	<tbody>
+		<?php
+		$query = "SELECT * FROM submissions ORDER BY `sid` DESC LIMIT 10;";
+		$gres = mysql_query($query);
+		$sub = 0;
+		while ($sub = mysql_fetch_assoc($gres))
+		{
+			$query = "SELECT * FROM users where id=".$sub['uid'].';';
+			$res = mysql_query($query);
+			$user = mysql_fetch_assoc($res);
+			$query = "SELECT * FROM problems where pid=".$sub['pid'].';';
+			$res = mysql_query($query);
+			$prob = mysql_fetch_assoc($res);
+			$classname = "bad_submission";
+			$icons = canview($sub['sid']) ? '<div style="text-align:center;margin: 0px auto !important;"><p style="display:inline;margin: 0px auto !important;"><a href="source/?id='.$sub['sid'].'"><i class="icon-file"></i></a>  <a href="status/?id='.$sub['sid'].'"><i class="icon-info-sign"></i></a></p>' : 'N/A';
+			if ($sub['res'] == 'AC') $classname="good_submission";
+		echo ' 
 		<tr>
-			<td class="good_submission date_submission"><p class="date_submission">July 3rd, 2012</p><br><p class="time_submission">12:14:43pm</p></td>
-			<td class="good_submission">stanleyc</td>
-			<td class="good_submission">A plus B</td>
-			<td class="good_submission">AC</td>
-			<td class="good_submission"><p style="display: inline;">***** ***** **</p></td>
-			<td class="good_submission">0.10s</td>
-			<td class="good_submission">0.24M</td>
-			<td class="good_submission">C++</td>
-			<td class="good_submission"><div style="text-align:center;margin: 0px auto !important;"><p style="display:inline;margin: 0px auto !important;"><a href="#"><i class="icon-file"></i></a>  <a href="#"><i class="icon-info-sign"></i></a></p></div></td>
-		</tr>
-		<tr>
-			<td class="bad_submission date_submission"><p class="date_submission">July 3rd, 2012</p><br><p class="time_submission">12:14:43pm</p></td>
-			<td class="bad_submission">stanleyc</td>
-			<td class="bad_submission">A plus B</td>
-			<td class="bad_submission">WA</td>
-			<td class="bad_submission"><p style="display: inline;">***** *x*** **</p></td>
-			<td class="bad_submission">0.10s</td>
-			<td class="bad_submission">0.24M</td>
-			<td class="bad_submission">C++</td>
-			<td class="bad_submission"><div style="text-align:center;margin: 0px auto !important;"><p style="display:inline;margin: 0px auto !important;"><a href="#"><i class="icon-file"></i></a>  <a href="#"><i class="icon-info-sign"></i></a></p></div></td>
-		</tr>
+			<td class="'.$classname.' date_submission"><p class="date_submission">'.$sub['date'].'</p><br><p class="time_submission">'.$sub['time'].'</p></td>
+			<td class="'.$classname.'">'.$user['username'].'</td>
+			<td class="'.$classname.'">'.$prob['name'].'</td>
+			<td class="'.$classname.'">'.$sub['res'].'</td>
+			<td class="'.$classname.'"><p style="display: inline;">'.$sub['scorecard'].'</p></td>
+			<td class="'.$classname.'">'.$sub['cpu'].'</td>
+			<td class="'.$classname.'">'.$sub['mem'].'</td>
+			<td class="'.$classname.'">'.$sub['lang'].'</td>
+			<td class="'.$classname.'">'.$icons.'</div></td>
+		</tr>';
+		}
+		?>
+
 	</tbody>
 	</table>
 </div>

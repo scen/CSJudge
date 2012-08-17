@@ -3,6 +3,19 @@ define('__ROOT__', "/var/www/judge/");
 $_ACTIVE = "submit";
 require_once __ROOT__ . "/php/head.php";
 
+date_default_timezone_set("America/Los_Angeles");
+
+function getcurdate()
+{
+	return date("M j, Y");
+}
+
+function getcurtime()
+{
+	return date("g:i:sa");
+}
+
+
 $error = "";
 
 if (isset($_POST['isUpload']))
@@ -25,6 +38,8 @@ if (isset($_POST['isUpload']))
 		die();
 	}
 	$prob = mysql_fetch_assoc($res);
+	$pid = $prob['pid'];
+	error_log($pid);
 
 	//Credits: php.net
 	function make_seed()
@@ -41,6 +56,7 @@ if (isset($_POST['isUpload']))
 
 	function evaluate($f, $l, $code)
 	{
+		global $pid;
 		if ($l == "C++")
 		{
 			$output = $f . ".exe";
@@ -83,8 +99,14 @@ if (isset($_POST['isUpload']))
 			}
 			if ($compileStatus != 2)
 			{
-					chroot("/var/www/");
-					echo getcwd();
+
+			}
+			else
+			{
+				//compile error
+				$escerr = mysql_real_escape_string($err);
+				$query = "INSERT INTO `submissions`(`lang`, `date`, `time`, `uid`, `pid`, `res`, `pts`, `scorecard`, `compile_status`, `path_submit`, `extrainfo`) VALUES " . "('C++','".getcurdate()."','".getcurtime()."',".$_SESSION['uid'].",".$pid.","."'CE',0,"."'ccccc ccccc',".$compileStatus.",'".$f."','".$escerr."');";
+				$res = mysql_query($query);
 			}
 		}
 	}

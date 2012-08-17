@@ -78,6 +78,8 @@ else if(isset($_POST['isRegister']) && $_POST['isRegister'] == "0")
 		{
 			$_SESSION['loggedin'] = true;
 			$_SESSION['username'] = $username;
+			$assoc = mysql_fetch_assoc($res);
+			$_SESSION['uid'] = $assoc['id'];
 			header("Location: ".$_ROOT);
 		}
 		else

@@ -6,6 +6,29 @@ if ((!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) && (!isset
 {
 	header('Location: '.$_ROOT.'login/');
 }
+function canview($sid)
+{
+	//get submission data
+	$query = "SELECT * FROM submissions WHERE sid=".$sid.";"; //if this is user's submission he can view it
+	$res = mysql_query($query);
+	$sub = mysql_fetch_assoc($res);
+	if ($sub['uid'] == $_SESSION['uid'])
+	{
+		error_log("YUP");
+		return true;
+	}
+	if (mysql_num_rows($res) == 0) return false;
+	$query = "SELECT * FROM submissions WHERE uid=".$_SESSION['uid']." AND pid=".$sub['pid'].";"; //If user has solved the problem he can view the status/source
+	$res = mysql_query($query);
+	while ($row = mysql_fetch_assoc($res))
+	{
+		if ($row['res'] == 'AC')
+		{
+			return true;
+		}
+	}
+	return false;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

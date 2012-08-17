@@ -48,7 +48,7 @@ require_once __ROOT__ . "/php/head.php";
 </p>
 	<h5>Sample C++ Submission</h5><br>
 	<pre class="prettyprint linenums">
-#include &lt;cstdio&gt;;
+#include &lt;cstdio&gt;
 
 int N;
 
@@ -70,12 +70,12 @@ return 0;
 			<tr>
 				<td>C++</td>
 				<td>g++ 4.6.3</td>
-				<td>g++-4.6 -O2 -DONLINE_JUDGE</td>
+				<td>g++-4.6 -m32 -static -O2 -DONLINE_JUDGE</td>
 			</tr>
 			<tr>
 				<td>C</td>
 				<td>gcc 4.6.3</td>
-				<td>gcc-4.6 -O2 -DONLINE_JUDGE</td>
+				<td>gcc-4.6 -m32 -static -O2 -DONLINE_JUDGE</td>
 			</tr>
 		</tbody>
 	</table>
@@ -89,6 +89,7 @@ return 0;
 		<li><strong>WA</strong>: Wrong answer; one or more test cases was solved incorrectly.</li>
 		<li><strong>CE</strong>: Compile error.</li>
 		<li><strong>TLE</strong>: Time limit exceeded.</li>
+		<li><strong>MLE</strong>: Memory limit exceeded.</li>
 		<li><strong>RE</strong>: Runtime error, additional info <em>may</em> contain the following:
 			<ul>
 				<li><strong>SIGSEGV</strong>: Invalid memory access (out of bounds, etc)</li>
@@ -108,7 +109,7 @@ return 0;
 		<li><strong>*</strong>: AC</li>
 		<li><strong>x</strong>: WA</li>
 		<li><strong>t</strong>: TLE</li>
-		<li><strong>s</strong>: RE, signal error</li>
+		<li><strong>s</strong>: RE, signal error, MLE</li>
 	</ul>
 <?php
 require_once __ROOT__ . "/php/foot.php";
