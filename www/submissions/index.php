@@ -3,7 +3,9 @@ $_ACTIVE = "submissions";
 define('__ROOT__', "/var/www/judge/");
 require_once __ROOT__ . "/php/head.php";
 
+//settings
 $numPerPage = 10;
+$numPaginatePages = 10;
 
 sql_init();
 $curpage = 1;
@@ -15,6 +17,13 @@ $query = "SELECT COUNT(*) AS NUM FROM submissions;";
 $res = mysql_query($query);
 $tmp = mysql_fetch_assoc($res);
 $cnt = $tmp['NUM'];
+
+$numpages = intval($cnt / $numPerPage) + 1;
+
+$navstring = "";
+if ($numpages == $curpage)
+	$navstring .= ""
+
 ?>
 <div class="row-fluid" style="width: 98%; margin: 0 auto;">
 	<h1>Submissions</h1><hr>
