@@ -1,6 +1,6 @@
 <?php
 $_ACTIVE = "problems";
-define('__ROOT__', "/var/www/judge/");
+define('__ROOT__', "/var/www/");
 require_once __ROOT__ . "/php/head.php";
 
 $probs = array();

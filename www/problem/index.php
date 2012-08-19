@@ -1,6 +1,6 @@
 <?php
 $_ACTIVE = "problems";
-define('__ROOT__', "/var/www/judge/");
+define('__ROOT__', "/var/www/");
 require_once __ROOT__ . "/php/conf.php";
 
 if (!isset($_GET['name']))
@@ -48,7 +48,7 @@ require_once __ROOT__ . "/php/head.php";
 <div class="row-fluid problem-section" style="width: 98%; margin: 0 auto;">
 		<div class="span10">
 			<pre><?php
-				$path = $_PROBLEMROOT . $prob['code'] . "/" . "problem.txt";
+				$path = _PROBLEMROOT . $prob['code'] . "/" . "problem.txt";
 				$fp = fopen($path, "r");
 				if (!$fp)
 				{

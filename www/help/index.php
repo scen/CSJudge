@@ -1,6 +1,6 @@
 <?php
 $_ACTIVE = "help";
-define('__ROOT__', "/var/www/judge/");
+define('__ROOT__', "/var/www/");
 require_once __ROOT__ . "/php/head.php";
 ?>
 <h1>Help</h1><hr>
@@ -109,6 +109,7 @@ return 0;
 		<li><strong>*</strong>: AC</li>
 		<li><strong>x</strong>: WA</li>
 		<li><strong>t</strong>: TLE</li>
+		<li><strong>c</strong>: CE</li>
 		<li><strong>s</strong>: RE, signal error, MLE</li>
 	</ul>
 <?php

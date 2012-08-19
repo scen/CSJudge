@@ -1,8 +1,14 @@
 <?php
 include_once "mysql_info.php";
-$_ROOT = "/judge/";
-$_PROBLEMROOT = "/home/stanleyc/westviewcs/problems/";
-$_SUBMISSIONROOT = "/home/stanleyc/westviewcs/submissions/";
+$_ROOT = '/';
+
+define('_BASEDIR', "/home/vm/westviewcs/");
+
+define('_PROBLEMROOT', _BASEDIR."problems/");
+define('_SUBMISSIONROOT', _BASEDIR."submissions/");
+define('_GRADERJAIL', _BASEDIR."jail/");
+define('_RUNJAIL', _GRADERJAIL . "run/");
+define('_SUPERVISOR', _BASEDIR."CSJudge/JailExec/safeexec");
 
 $g_con = NULL;
 
