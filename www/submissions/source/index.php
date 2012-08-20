@@ -51,7 +51,7 @@ $compilestatus = $submission['compile_status'];
 	      			<p><h4 class="inlineh">Language: </h4><?php echo $submission['lang']; ?></p>
 	      			<p><h4 class="inlineh">Result: </h4><code><?php echo $submission['res']; ?></code></p>
 	      				<div >
-	      					<pre><?php
+	      					<pre class="prettyprint linenums"><?php
 	      					$fp = fopen($submission['path_submit'], "r");
 	      					if (!$fp) die("An error occured.");
 	      					else

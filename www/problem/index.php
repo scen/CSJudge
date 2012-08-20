@@ -66,7 +66,7 @@ require_once __ROOT__ . "/php/head.php";
 						Actions
 					</li>
 					<li>
-						<a href="<?php echo $_ROOT."submit/?name=".$prob['code']; ?>"><i class="icon-upload"></i> Submit Solution</a>
+						<a href="<?php echo $_ROOT."submit/".$prob['code']; ?>"><i class="icon-upload"></i> Submit Solution</a>
 					</li>
 					<li class="nav-header">
 						View Actions

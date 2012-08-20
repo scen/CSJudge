@@ -19,10 +19,14 @@ $tmp = mysql_fetch_assoc($res);
 $cnt = $tmp['NUM'];
 $curpage = $curpage > $cnt ? $cnt : $curpage;
 $numpages = intval($cnt / $numPerPage) + 1;
-
-$navstring = '<li><a href="?page=1">First</a>';
+if ($curpage > $numpages) 
+{
+	header("Location: " . $numpages);
+	die();
+}
+$navstring = '<li><a href="1">First</a>';
 if (1 != $curpage)
-	$navstring .= '</li><li><a href="?page='.($curpage - 1).'">«</a></li>';
+	$navstring .= '</li><li><a href="'.($curpage - 1).'">«</a></li>';
 
 //set center. we put the initial center @ the current page, then we  slide the range right until the left endpoint > 0
 $curleft = $curpage - ($numPaginatePages / 2);
@@ -36,14 +40,14 @@ $curright = min($numpages, $curright);
 
 for ($i = $curleft; $i <= $curright; $i++)
 {
-	$navstring .= '<li'. ($i == $curpage ? ' class="active"' : '' ).'><a href="?page='.$i.'">'.$i.'</a></li>';
+	$navstring .= '<li'. ($i == $curpage ? ' class="active"' : '' ).'><a href="'.$i.'">'.$i.'</a></li>';
 }
 
 if ($curpage != $numpages)
 {
-	$navstring.='<li><a href="?page='.($curpage + 1).'">»</a></li>';
+	$navstring.='<li><a href="'.($curpage + 1).'">»</a></li>';
 }
-$navstring .= '<li><a href="?page='.$numpages.'">Last</a></li>';
+$navstring .= '<li><a href="'.$numpages.'">Last</a></li>';
 
 $offset = ($curpage - 1) * $numPerPage;
 ?>
@@ -129,7 +133,7 @@ width: auto;
 			$res = mysql_query($query);
 			$prob = mysql_fetch_assoc($res);
 			$classname = "bad_submission";
-			$icons = canview($sub['sid']) ? '<div style="text-align:center;margin: 0px auto !important;"><p style="display:inline;margin: 0px auto !important;"><a href="source/?id='.$sub['sid'].'"><i class="icon-file"></i></a>  <a href="status/?id='.$sub['sid'].'"><i class="icon-info-sign"></i></a></p>' : 'N/A';
+			$icons = canview($sub['sid']) ? '<div style="text-align:center;margin: 0px auto !important;"><p style="display:inline;margin: 0px auto !important;"><a href="status/'.$sub['sid'].'"><i class="icon-info-sign"></i></a> <a href="source/'.$sub['sid'].'"><i class="icon-file"></i></a> </p>' : 'N/A';
 			if ($sub['res'] == 'AC') $classname="good_submission";
 		echo ' 
 		<tr>
@@ -138,7 +142,7 @@ width: auto;
 			<td class="'.$classname.'">'.$prob['name'].'</td>
 			<td class="'.$classname.'">'.$sub['res'].'</td>
 			<td class="'.$classname.'"><p style="display: inline;"><span class="scorecard">'.$sub['scorecard'].'</span></p></td>
-			<td class="'.$classname.'">'.$sub['cpu'].'s</td>
+			<td class="'.$classname.'">'.number_format($sub['cpu'], 3).'s</td>
 			<td class="'.$classname.'">'.number_format($sub['mem'], 2).'M</td>
 			<td class="'.$classname.'">'.$sub['lang'].'</td>
 			<td class="'.$classname.'">'.$icons.'</div></td>

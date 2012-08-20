@@ -14,7 +14,6 @@ function canview($sid)
 	$sub = mysql_fetch_assoc($res);
 	if ($sub['uid'] == $_SESSION['uid'])
 	{
-		error_log("YUP");
 		return true;
 	}
 	if (mysql_num_rows($res) == 0) return false;
@@ -44,6 +43,7 @@ function canview($sid)
 		<script src="<?php echo $_ROOT; ?>js/main.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 		<script src="<?php echo $_ROOT; ?>bootstrap/js/bootstrap-dropdown.js" type="text/javascript"></script>
+		<script src="<?php echo $_ROOT; ?>js/jquery.blockUI.js" type="text/javascript"></script>
 		<script type="text/javascript" src="<?php echo $_ROOT; ?>gcp/prettify.js"></script>
 		<script src="bootstrap/js/bootstrap-collapse.js" type="text/javascript"></script>
 		<script type="text/javascript">

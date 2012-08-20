@@ -111,15 +111,15 @@ if (isset($_POST['isUpload']))
 			}
 
 			//Count testcases
-			$numtestcases = 0;
-			for (; $numtestcases < 100;)
+			$cur = 1;
+			for (; $cur < 100;)
 			{
-				if (file_exists(_PROBLEMROOT . $code . "/" . $numtestcases . ".in") && file_exists(_PROBLEMROOT . $code . "/" . $numtestcases . ".out"))
-					$numtestcases ++;
+				if (file_exists(_PROBLEMROOT . $code . "/" . $cur . ".in") && file_exists(_PROBLEMROOT . $code . "/" . $cur . ".out"))
+					$cur ++;
 				else
 					break;
 			}
-
+			$numtestcases = $cur - 1;
 			if ($compileStatus != 2)
 			{
 				chmod($output, 777);
@@ -127,7 +127,10 @@ if (isset($_POST['isUpload']))
 				$finalScorecard = "";
 				$maxTime = 0;
 				$maxMem = 0;
-				for ($i = 0; $i < $numtestcases; $i++)
+				$all_cpu = "";
+				$all_mem = "";
+				$all_res = "";
+				for ($i = 1; $i <= $numtestcases; $i++)
 				{
 					$inputf = _PROBLEMROOT . $code . "/" . $i . ".in";
 					$outputf = _PROBLEMROOT . $code . "/" . $i . ".out";
@@ -157,7 +160,8 @@ if (isset($_POST['isUpload']))
 					$priorities = array("RE" => 1,
 										"TLE" => 2,
 										"MLE" => 3,
-										"WA" => 4);
+										"WA" => 4,
+										"OLE" => 5);
 
 					$retval = proc_close($res);
 					list($codeResult, $elapsed, $mem, $cpu, $millis) = sscanf($graderResult, "%s %d %d %d %d");
@@ -165,6 +169,9 @@ if (isset($_POST['isUpload']))
 					$maxTime = max(floatval($millis) / 1000, $maxTime);
 					$maxMem = max($maxMem, floatval($mem) / 1024);
 
+					$all_cpu .= number_format(floatval($millis) / 1000, 3) . ",";
+					$all_mem .= number_format(floatval($mem) / 1024, 2) . ",";
+					$all_res .= $codeResult . ",";
 					if ($codeResult == "AC")
 						$finalScorecard .= "*";
 					else if ($codeResult == "WA")
@@ -179,12 +186,11 @@ if (isset($_POST['isUpload']))
 					{
 						$finalScorecard .= "s";
 					}
-
 					if ($finalCodeResult == "AC" && $codeResult != "AC")
 					{
 						$finalCodeResult = $codeResult;
 					}
-					else if ($priorities[$finalCodeResult] > $priorities[$codeResult])
+					else if ($codeResult != 'AC' && $priorities[$finalCodeResult] > $priorities[$codeResult])
 					{
 						$finalCodeResult = $codeResult;
 					}
@@ -192,8 +198,26 @@ if (isset($_POST['isUpload']))
 					if ((($i + 1) % 5) == 0)
 						$finalScorecard .= " ";
 				}
-				$query = "INSERT INTO `submissions`(`lang`, `date`, `time`, `uid`, `pid`, `res`, `pts`, `scorecard`, `compile_status`, `path_submit`, `cpu`, `mem`) VALUES " . "('C++','".getcurdate()."','".getcurtime()."',".$_SESSION['uid'].",".$pid.","."'".$finalCodeResult."',0,"."'".$finalScorecard."',".$compileStatus.",'".$f."',".$maxTime.",".$maxMem.");";//,'".$escerr."');";
+				$query = "INSERT INTO `submissions`(`lang`, `date`, `time`, `uid`, `pid`, `res`, `pts`, `scorecard`, `compile_status`, `path_submit`, `cpu`, `mem`, `all_cpu`, `all_mem`, `all_res`) VALUES " . "('C++','".getcurdate()."','".getcurtime()."',".$_SESSION['uid'].",".$pid.","."'".$finalCodeResult."',0,"."'".$finalScorecard."',".$compileStatus.",'".$f."',".$maxTime.",".$maxMem.",'".$all_cpu."','".$all_mem."','".$all_res."');";//,'".$escerr."');";
 				$res = mysql_query($query);
+				$query = "SELECT LAST_INSERT_ID() as id;";
+				$res2 = mysql_query($query);
+				$tab = mysql_fetch_assoc($res2);
+				if ($finalCodeResult == "AC")
+				{
+					$query = "SELECT * FROM `submissions` WHERE res='AC' AND uid=".$_SESSION['uid'].";";
+					$res = mysql_query($query);
+					if (mysql_num_rows($res) == 1) //just submitted one as AC
+					{
+						$query = "UPDATE `problems` SET solvers=solvers+1 WHERE pid=".$pid.";";
+						mysql_query($query);
+						//increase points
+						$query = "UPDATE `users` SET points=points+".$prob['point']." WHERE id=".$_SESSION['uid'].";";
+						mysql_query($query);
+					}
+				}
+				header("Location: "._ROOT."submissions/status/".$tab['id']);
+				die();
 			}
 			else
 			{
@@ -208,6 +232,11 @@ if (isset($_POST['isUpload']))
 				$escerr = mysql_real_escape_string($err);
 				$query = "INSERT INTO `submissions`(`lang`, `date`, `time`, `uid`, `pid`, `res`, `pts`, `scorecard`, `compile_status`, `path_submit`, `extrainfo`) VALUES " . "('C++','".getcurdate()."','".getcurtime()."',".$_SESSION['uid'].",".$pid.","."'CE',0,"."'".$gen."',".$compileStatus.",'".$f."','".$escerr."');";
 				$res = mysql_query($query);
+				$query = "SELECT LAST_INSERT_ID() as id;";
+				$res2 = mysql_query($query);
+				$tab = mysql_fetch_assoc($res2);
+				header("Location: "._ROOT."submissions/status/".$tab['id']);
+				die();
 			}
 		}
 	}
@@ -284,6 +313,25 @@ $(document).ready(function()
 		});
 		$("#problem_code").val("");
 	});
+	$("#submit_form").submit(function(e)
+	{
+		// e.preventDefault && e.preventDefault();
+		// e.stopPropagation && e.stopPropagation();
+		$("#submit_button").attr("disabled", "true");
+		$.blockUI({
+			css: {
+				border: 'none',
+				padding: '15px',
+				backgroundColor: "#000",
+				'-webkit-border-radius': '10px', 
+	            '-moz-border-radius': '10px', 
+	            opacity: .5, 
+	            color: '#fff' 
+			},
+			message: "Please wait while your submission is queued and graded..."
+		});
+		// return false;
+	});
 });
 </script>
       		<div class="row-fluid" style="width: 98%; margin: 0 auto;">
@@ -333,7 +381,7 @@ $(document).ready(function()
 		      					</div>
 		      				</div>
 		      				<div class="controls">
-		      					<button class="btn btn-info" onclick="">Submit</button>
+		      					<button class="btn btn-info" id="submit_button" onclick="">Submit</button>
 								<button class="btn" id="reset_btn" type="button">Reset</button>
 		      				</div>
 	      				</fieldset>

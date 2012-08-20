@@ -1,6 +1,7 @@
 <?php
 include_once "mysql_info.php";
 $_ROOT = '/';
+define("_ROOT", "/");
 
 define('_BASEDIR', "/home/vm/westviewcs/");
 
