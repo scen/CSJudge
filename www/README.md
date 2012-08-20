@@ -1,4 +1,0 @@
-Yet another grader
-==================
-
-Yup
