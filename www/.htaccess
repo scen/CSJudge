@@ -1,6 +1,0 @@
-RewriteEngine on
-RewriteRule ^problem/([^/\.]+)/?$ problem/index.php?name=$1 [L]
-RewriteRule ^submit/([^/\.]+)/?$ submit/index.php?name=$1 [L]
-RewriteRule ^submissions/([^/\.]+)/?$ submissions/index.php?page=$1 [L]
-RewriteRule ^submissions/source/([^/\.]+)/?$ submissions/source/index.php?id=$1 [L]
-RewriteRule ^submissions/status/([^/\.]+)/?$ submissions/status/index.php?id=$1 [L]
