@@ -1,5 +1,5 @@
 <?php
-define('__ROOT__', "/var/www/");
+define('__ROOT__', "/var/www/judge");
 $_ACTIVE = "submit";
 require_once __ROOT__ . "/php/head.php";
 
@@ -238,6 +238,9 @@ if (isset($_POST['isUpload']))
 				header("Location: "._ROOT."submissions/status/".$tab['id']);
 				die();
 			}
+			//remove the file
+			if (file_exists($output))
+				unlink($outout);
 		}
 	}
 

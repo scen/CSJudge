@@ -1,6 +1,6 @@
 <?php
 $_ACTIVE = "help";
-define('__ROOT__', "/var/www/");
+define('__ROOT__', "/var/www/judge");
 require_once __ROOT__ . "/php/head.php";
 ?>
 <h1>Help</h1><hr>

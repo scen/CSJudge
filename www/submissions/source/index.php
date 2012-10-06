@@ -1,5 +1,5 @@
 <?php
-define('__ROOT__', "/var/www/");
+define('__ROOT__', "/var/www/judge");
 $_ACTIVE = "submissions";
 require_once __ROOT__ . "/php/head.php";
 

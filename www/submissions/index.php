@@ -1,6 +1,6 @@
 <?php
 $_ACTIVE = "submissions";
-define('__ROOT__', "/var/www/");
+define('__ROOT__', "/var/www/judge");
 require_once __ROOT__ . "/php/head.php";
 
 //settings

@@ -1,5 +1,5 @@
 <?php
-define('__ROOT__', "/var/www/");
+define('__ROOT__', "/var/www/judge");
 require_once __ROOT__ . "/php/conf.php";
 session_start();
 $_SESSION['username'] = "";

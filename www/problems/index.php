@@ -1,6 +1,6 @@
 <?php
 $_ACTIVE = "problems";
-define('__ROOT__', "/var/www/");
+define('__ROOT__', "/var/www/judge");
 require_once __ROOT__ . "/php/head.php";
 
 $probs = array();
@@ -33,8 +33,21 @@ function getCatName($cid, &$categories)
 }
 
 
-$cat = mysql_real_escape_string($_POST['category']);
-if (isset($_POST['category']) && $_POST['category'] != 'All')
+$cat = mysql_real_escape_string($_GET['category']);
+$date = mysql_real_escape_string($_GET['date']);
+$lvl = mysql_real_escape_string($_GET['level']);
+
+$allprobs = array();
+
+$query = "SELECT * FROM problems;";
+error_log($query);
+$ret = mysql_query($query);
+if ($ret != false)
+{
+	while ($allprobs[] = mysql_fetch_assoc($ret)) {}
+}
+
+if (isset($_GET['category']) && $_GET['category'] != 'All')
 {
 	$query = "SELECT * FROM categories WHERE name='". $cat . "';";
 	$ret = mysql_query($query);
@@ -53,14 +66,9 @@ if (isset($_POST['category']) && $_POST['category'] != 'All')
 }
 else
 {
-	$query = "SELECT * FROM problems;";
-	error_log($query);
-	$ret = mysql_query($query);
-	if ($ret != false)
-	{
-		while ($probs[] = mysql_fetch_assoc($ret)) {}
-	}
+	$probs = $allprobs;
 }
+
 
 
 sql_clean();
@@ -70,7 +78,7 @@ sql_clean();
 	<h1>Problems</h1>
 	<hr>
 	<div id="search_form">
-		<form id="submit_form" action="." method="POST" class="form-horizontal well">
+		<form id="submit_form" action="." method="GET" class="well">
 			<fieldset>
 				<!-- <div class="control-group">
 					<label class="control-label" for="keywords">Search keywords:</label>
@@ -82,16 +90,22 @@ sql_clean();
 					<label for="category" class="control-label">Category:</label>
 					<div class="controls">
 						<select id="category" name="category">
-							<option<?php if ($_POST['category'] == 'All' || !isset($_POST['category'])) echo ' selected="selected" ';?>>All</option>
+							<option<?php if ($_GET['category'] == 'All' || !isset($_GET['category'])) echo ' selected="selected" ';?>>All</option>
 							<?php
 							foreach ($categories as $c) {
 								if (!isset($c['name'])) continue;
-								$p = $_POST['category'];
+								$p = $_GET['category'];
 								$s = "";
 								if ($p == $c['name']) $s = ' selected="selected" ';
 								echo '<option'.$s.'>'.$c['name'].'</option>';
 							}
 							?>
+  						</select>
+  						<label for="level" class="control-label">Level:</label>
+  						<select id="level" name="level">
+  						</select>
+  						<label for="date" class="control-label">Date:</label>
+  						<select id="date" name="date">
   						</select>
 					</div>
 				</div>

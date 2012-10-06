@@ -1,6 +1,6 @@
 <?php
 $_ACTIVE = "index";
-define('__ROOT__', "/var/www/");
+define('__ROOT__', "/var/www/judge");
 require_once __ROOT__ . "/php/head.php";
 ?>
 <div class="row-fluid" style="width: 98%; margin: 0 auto;">

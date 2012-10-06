@@ -1,6 +1,6 @@
 <?php
-$_ACTIVE = "contests";
-define('__ROOT__', "/var/www/");
+$_ACTIVE = "about";
+define('__ROOT__', "/var/www/judge");
 require_once __ROOT__ . "/php/head.php";
 ?>
 <h1>About</h1><hr>
