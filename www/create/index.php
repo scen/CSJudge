@@ -13,7 +13,7 @@ if (isset($_POST['submitted']) && $_POST['submitted'] == "1")
 	{
 		$row = mysql_fetch_assoc($res);
 		$id = $row["cid"];
-		$query = sprintf("INSERT INTO `problems`(`cid`, `level`, `code`, `date`, `solvers`, `name`, `point`, `timelimit`, `memlimit`) VALUES (%d,'%s','%s','%s',0,'%s',%d,1,16)", $id, mysql_real_escape_string($_POST["level"]), mysql_real_escape_string($_POST["shortname"]), mysql_real_escape_string($_POST["date"]), mysql_real_escape_string($_POST["name"]), intval($_POST["points"]);
+		$query = sprintf("INSERT INTO `problems`(`cid`, `level`, `code`, `date`, `solvers`, `name`, `point`, `timelimit`, `memlimit`) VALUES (%d,'%s','%s','%s',0,'%s',%d,1,16)", $id, mysql_real_escape_string($_POST["level"]), mysql_real_escape_string($_POST["shortname"]), mysql_real_escape_string($_POST["date"]), mysql_real_escape_string($_POST["name"]), intval($_POST["points"]));
 		die($query);
 		mysql_query($query);
 	}
