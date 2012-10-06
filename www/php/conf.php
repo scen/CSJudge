@@ -31,6 +31,7 @@ function bIsValidEmail($email)
 
 function gethash($pwd)
 {
+	error_log(hash("sha256", _MYSQL_SALT . $pwd . _MYSQL_SALT));
 	return hash("sha256", _MYSQL_SALT . $pwd . _MYSQL_SALT);
 }
 

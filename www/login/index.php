@@ -76,11 +76,18 @@ else if(isset($_POST['isRegister']) && $_POST['isRegister'] == "0")
 		$res = mysql_query($query);
 		if (mysql_num_rows($res) == 1)
 		{
-			$_SESSION['loggedin'] = true;
-			$_SESSION['username'] = $username;
 			$assoc = mysql_fetch_assoc($res);
-			$_SESSION['uid'] = $assoc['id'];
-			header("Location: ".$_ROOT);
+			if ($assoc['verified'] == false)
+			{
+				$errors[] = "Please wait until you're verified.";
+			}
+			else
+			{
+				$_SESSION['loggedin'] = true;
+				$_SESSION['username'] = $username;
+				$_SESSION['uid'] = $assoc['id'];
+				header("Location: ".$_ROOT);
+			}
 		}
 		else
 		{
