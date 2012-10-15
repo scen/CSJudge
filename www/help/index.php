@@ -31,6 +31,7 @@ require_once __ROOT__ . "/php/head.php";
 		<li>Input/Output should be from/to <code>stdin</code> and <code>stdout</code> respectively. Please do not flush your output after each line - this will make your program run slower. Yes, that means no using <code>std::endl</code>!</li>
 		<li><strong>Do not</strong> prompt for input. The entire input file will be provided at runtime; if you prompt using stuff like <code>getchar()</code>, your program will <em>not</em> terminate.</li>
 		<li>Your output must be in the <strong>exact</strong> same format as described in the problem. Extra newlines <strong>do</strong> matter, as well as spaces and punctuation.</li>
+		<li>Please do not print anything other than answer text to stdout. (Unless you want your answer to be marked wrong)</li>
 	</ul>
 </p>
 <p>
@@ -54,9 +55,9 @@ int N;
 
 int main(int argc, char** argv)
 {
-scanf("%d", &amp;N);
-printf("%d", N);
-return 0;
+    scanf("%d", &amp;N);
+    printf("%d", N);
+    return 0;
 }</pre>
 <h3 id="languages">Languages and Compiler Flags</h3><hr>
 <p>

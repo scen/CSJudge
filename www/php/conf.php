@@ -11,7 +11,11 @@ define('_GRADERJAIL', _BASEDIR."jail/");
 define('_RUNJAIL', _GRADERJAIL . "run/");
 define('_SUPERVISOR', _BASEDIR."CSJudge/JailExec/safeexec");
 
+define('_SEMAPHORE_KEY', 4);
+
 $g_con = NULL;
+
+
 
 function sql_init()
 {
@@ -31,7 +35,6 @@ function bIsValidEmail($email)
 
 function gethash($pwd)
 {
-	error_log(hash("sha256", _MYSQL_SALT . $pwd . _MYSQL_SALT));
 	return hash("sha256", _MYSQL_SALT . $pwd . _MYSQL_SALT);
 }
 

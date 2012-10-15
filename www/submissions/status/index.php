@@ -14,7 +14,7 @@ $query = "SELECT * FROM submissions where sid=".$sid.";";
 $res = mysql_query($query);
 if (mysql_num_rows($res) == 0 || !canview($sid))
 {
-	die("An unknown error occured or you're not permitted to see this page");
+	die("<div class='alert alert-error'>An unknown error occured or you're not permitted to see this page</div>");
 }
 $submission = mysql_fetch_assoc($res);
 

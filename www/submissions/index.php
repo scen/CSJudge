@@ -139,7 +139,7 @@ width: auto;
 		<tr>
 			<td class="'.$classname.' date_submission"><p class="date_submission">'.$sub['date'].'</p><br><p class="time_submission">'.$sub['time'].'</p></td>
 			<td class="'.$classname.'">'.$user['username'].'</td>
-			<td class="'.$classname.'">'.$prob['name'].'</td>
+			<td class="'.$classname.'"><a href="'._ROOT.'problem/'.$prob['code'].'">'.$prob['name'].'</a></td>
 			<td class="'.$classname.'">'.$sub['res'].'</td>
 			<td class="'.$classname.'"><p style="display: inline;"><span class="scorecard">'.$sub['scorecard'].'</span></p></td>
 			<td class="'.$classname.'">'.number_format($sub['cpu'], 3).'s</td>

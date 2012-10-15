@@ -10,7 +10,6 @@ $passwordError = false;
 $emailError = false;
 $registerError = false;
 
-error_log(print_r($_POST, true));
 
 if (isset($_POST['isRegister'] )&& $_POST['isRegister'] == "1")
 {

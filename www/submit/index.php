@@ -112,16 +112,34 @@ if (isset($_POST['isUpload']))
 
 			//Count testcases
 			$cur = 1;
-			for (; $cur < 100;)
+			$inputfiles = array();
+			for (; $cur < 100; $cur++)
 			{
 				if (file_exists(_PROBLEMROOT . $code . "/" . $cur . ".in") && file_exists(_PROBLEMROOT . $code . "/" . $cur . ".out"))
-					$cur ++;
+					$inputfiles[] = _PROBLEMROOT . $code . "/" . $cur;
 				else
 					break;
 			}
-			$numtestcases = $cur - 1;
+			for ($cur = 1; $cur < 100;$cur++)
+			{
+				if (file_exists(_PROBLEMROOT . $code . "/" . $code.".".$cur . ".in") && file_exists(_PROBLEMROOT . $code . "/".$code."." . $cur . ".out"))
+					$inputfiles[] = _PROBLEMROOT . $code . "/" . $code.".".$cur;
+				else
+					break;
+			}
+			for ($cur = 1; $cur < 100;$cur++)
+			{
+				if (file_exists(_PROBLEMROOT . $code . "/" . $code."-".$cur . ".in") && file_exists(_PROBLEMROOT . $code . "/".$code."-" . $cur . ".out"))
+					$inputfiles[] = _PROBLEMROOT . $code . "/" . $code."-".$cur;
+				else
+					break;
+			}
 			if ($compileStatus != 2)
 			{
+				//lock the jail to prevent another instance of the grader from using it
+				$seph = sem_get(_SEMAPHORE_KEY);
+				sem_acquire($seph);//blocks if necessary
+
 				chmod($output, 777);
 				$finalCodeResult = "AC";
 				$finalScorecard = "";
@@ -130,10 +148,10 @@ if (isset($_POST['isUpload']))
 				$all_cpu = "";
 				$all_mem = "";
 				$all_res = "";
-				for ($i = 1; $i <= $numtestcases; $i++)
+				for ($i = 0; $i < count($inputfiles); $i++)
 				{
-					$inputf = _PROBLEMROOT . $code . "/" . $i . ".in";
-					$outputf = _PROBLEMROOT . $code . "/" . $i . ".out";
+					$inputf = $inputfiles[$i]. ".in";
+					$outputf = $inputfiles[$i]. ".out";
 					bypass_copy($inputf, _RUNJAIL . "input");
 					bypass_copy($output, _RUNJAIL . "exe");
 					$cmd = "echo '1' | sudo -S " . _SUPERVISOR . " --cpu " . $prob['timelimit'] . " --mem " . ($prob['memlimit'] * 1024) . " --inputfile input --outputfile " .  $outputf .
@@ -216,6 +234,7 @@ if (isset($_POST['isUpload']))
 						mysql_query($query);
 					}
 				}
+				sem_release($seph); //don't forget to release it...
 				header("Location: "._ROOT."submissions/status/".$tab['id']);
 				die();
 			}
@@ -223,7 +242,7 @@ if (isset($_POST['isUpload']))
 			{
 				//compile error
 				$gen = "";
-				for ($i = 0; $i < $numtestcases; $i++)
+				for ($i = 0; $i < count($inputfiles); $i++)
 				{
 					$gen .= "c";
 					if ((($i + 1) % 5) == 0)
@@ -364,7 +383,7 @@ $(document).ready(function()
 		      					<div class="controls">
 		      						<select id="prog_lang" name="prog_lang">
 		      							<option selected="selected">C++</option>
-		      							<option disabled="disabled">C</option>
+		      							<!-- <option disabled="disabled">C</option> -->
 		      							<!-- <option>Java</option> -->
 		      						</select>
 		      						<p class="help-inline">

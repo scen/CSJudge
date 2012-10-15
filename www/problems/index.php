@@ -47,28 +47,71 @@ if ($ret != false)
 	while ($allprobs[] = mysql_fetch_assoc($ret)) {}
 }
 
-if (isset($_GET['category']) && $_GET['category'] != 'All')
+$levels = array();
+foreach ($allprobs as $prob) {
+	if (in_array($prob['level'], $levels)) {}
+	else if (isset($prob['level']) && $prob['level'] != "")
+	{
+		$levels[] = $prob['level'];
+	}	
+}
+$dates = array();
+foreach ($allprobs as $prob) {
+	if (!in_array($prob['date'], $dates) && isset($prob['date']) && $prob['date'] != "")
+	{
+		$dates[] = $prob['date'];
+	}
+}
+
+$cat_query = "%";
+$level_query = "%";
+$date_query = "%";
+if (isset($_GET['category'])&& $_GET['category'] != 'All')
 {
-	$query = "SELECT * FROM categories WHERE name='". $cat . "';";
+	$query = "SELECT * FROM categories WHERE name='". mysql_real_escape_string($_GET['category']) . "';";
 	$ret = mysql_query($query);
 	if ($ret != false)
 	{
 		$row = mysql_fetch_assoc($ret);
-		$query = "SELECT * FROM problems WHERE cid=" . $row['cid'] .";";
-		$ret2 = mysql_query($query);
-		if ($ret2 != false)
+		$cat_query = $row['cid'];
+	}
+}
+
+if (isset($_GET['level'])&& $_GET['level'] != 'All')
+{
+	$level_query = mysql_real_escape_string($_GET['level']);
+}
+
+if (isset($_GET['date']) && $_GET['date'] != 'All')
+{
+	$date_query = mysql_real_escape_string($_GET['date']);
+}
+$query = "SELECT * FROM problems WHERE cid LIKE '" . $cat_query . "' AND level LIKE '" . $level_query . "' AND date LIKE '" . $date_query . "';"; 
+$ret2 = mysql_query($query);
+if ($ret2 != false)
+{
+	while ($probs[] = mysql_fetch_assoc($ret2))
+	{
+	}
+}
+
+if ($_GET["hide_solved"] == "on")
+{
+	$query = "SELECT * FROM submissions WHERE uid='".$_SESSION['uid']."' AND res='AC';";
+	$ret = mysql_query($query);
+	$solved = array();
+	while ($row = mysql_fetch_assoc($ret))
+	{
+		$solved[$row['pid']] = 42;
+	}
+	foreach($probs as $key => $row)
+	{
+		if ($solved[$row['pid']] == 42)
 		{
-			while ($probs[] = mysql_fetch_assoc($ret2))
-			{
-			}
+			unset($probs[$key]);
 		}
 	}
 }
-else
-{
-	$probs = $allprobs;
-}
-
 
 
 sql_clean();
@@ -76,6 +119,8 @@ sql_clean();
 ?>
 <div class="row-fluid" style="width: 98%; margin: 0 auto;">
 	<h1>Problems</h1>
+	<br/>
+	<p>Please read the <code>help</code> page before submitting any solutions.</p>
 	<hr>
 	<div id="search_form">
 		<form id="submit_form" action="." method="GET" class="well">
@@ -102,16 +147,36 @@ sql_clean();
 							?>
   						</select>
   						<label for="level" class="control-label">Level:</label>
+
   						<select id="level" name="level">
+  							<option<?php if ($_GET['level'] == 'All' || !isset($_GET['level'])) echo ' selected="selected" ';?>>All</option>
+  							<?php
+
+  							foreach ($levels as $c) {
+								$p = $_GET['level'];
+								$s = "";
+								if ($p == $c) $s = ' selected="selected" ';
+								echo '<option'.$s.'>'.$c.'</option>';
+							}
+							?>
   						</select>
   						<label for="date" class="control-label">Date:</label>
   						<select id="date" name="date">
+  							<option<?php if ($_GET['category'] == 'date' || !isset($_GET['date'])) echo ' selected="selected" ';?>>All</option>
+  							<?php
+  							foreach ($dates as $c) {
+								$p = $_GET['date'];
+								$s = "";
+								if ($p == $c) $s = ' selected="selected" ';
+								echo '<option'.$s.'>'.$c.'</option>';
+							}
+  							?>
   						</select>
 					</div>
 				</div>
 				<div class="controls">
 					<label class="checkbox">
-						<input type="checkbox" id="hide_solved" name="hide_solved">Hide solved problems</input>
+						<input type="checkbox" id="hide_solved" name="hide_solved" <?php if (isset($_GET['hide_solved']) && $_GET['hide_solved'] == "on") echo " checked='checked'"; ?>>Hide solved problems</input>
 					</label>
 				</div>
 				<br>
@@ -122,7 +187,12 @@ sql_clean();
 			</fieldset>
 		</form>
 	</div>
+
 	<div id="results">
+			<?php
+	if (count($probs) > 1)
+	{
+	?>
 		<table class="table table-striped table-bordered">
 			<thead>
 				<th style="width:14%;">Category</th>
@@ -134,6 +204,7 @@ sql_clean();
 			</thead>
 			<tbody>
 				<?php
+
 				foreach ($probs as $prob) {
 					if (!isset($prob['pid'])) continue;
 					echo "<tr>";
@@ -148,6 +219,11 @@ sql_clean();
 				?>
 			</tbody>
 		</table>
+		<?php } else {
+			?>
+			<div class="alert alert-error"><p>Sorry, unable to find any problems with those parameters.</p></div>
+			<?
+		}?>
 	</div>
 </div>
 <?php
