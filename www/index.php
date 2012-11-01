@@ -17,6 +17,11 @@ require_once __ROOT__ . "/php/head.php";
 	</div><br>
 	<h2>News</h2><hr>
 	<div class="news">
+		<h3>October 21, 2012</h3>
+		<ul>
+			<li>Added image embedding/link embedding for a few problems</li>
+			<li>Added Techstart actual problem text</li>
+		</ul>
 		<h3>October 9, 2012</h3>
 		<ul>
 			<li>Added all previous Techstart problems</li>

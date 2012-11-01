@@ -6,6 +6,11 @@ if ((!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) && (!isset
 {
 	header('Location: '._ROOT.'login/');
 }
+else
+{
+	//LOGGING
+	date_default_timezone_set("America/Los_Angeles");
+}
 function canview($sid)
 {
 	//get submission data

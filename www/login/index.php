@@ -31,10 +31,22 @@ if (isset($_POST['isRegister'] )&& $_POST['isRegister'] == "1")
 		$errors[] = "Please input a valid email address.";
 		$emailError = true;
 	}
+	sql_init();
+	if (!$usernameError)
+	{
+
+		$query = "SELECT * FROM users WHERE username='".mysql_real_escape_string($username)."';";
+		$res = mysql_query($query);
+		if (mysql_num_rows($res) != 0)
+		{
+			$usernameError = true;
+			$errors[] = "That username is already taken.";
+		}
+	}
+
 	$registerError = $usernameError || $passwordError || $emailError;
 	if (!$registerError)
 	{
-		sql_init();
 		$username = mysql_real_escape_string($username);
 		$password = mysql_real_escape_string($password);
 		$email = mysql_real_escape_string($email);

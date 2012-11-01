@@ -113,24 +113,44 @@ if (isset($_POST['isUpload']))
 			//Count testcases
 			$cur = 1;
 			$inputfiles = array();
+			$outputfiles = array();
 			for (; $cur < 100; $cur++)
 			{
 				if (file_exists(_PROBLEMROOT . $code . "/" . $cur . ".in") && file_exists(_PROBLEMROOT . $code . "/" . $cur . ".out"))
+				{
 					$inputfiles[] = _PROBLEMROOT . $code . "/" . $cur;
+					$outputfiles[] = _PROBLEMROOT . $code . "/" . $cur;
+				}
 				else
 					break;
 			}
 			for ($cur = 1; $cur < 100;$cur++)
 			{
 				if (file_exists(_PROBLEMROOT . $code . "/" . $code.".".$cur . ".in") && file_exists(_PROBLEMROOT . $code . "/".$code."." . $cur . ".out"))
-					$inputfiles[] = _PROBLEMROOT . $code . "/" . $code.".".$cur;
+				{
+					$inputfiles[] = _PROBLEMROOT . $code . "/" . $code.".".$cur.".in";
+					$outputfiles[] = _PROBLEMROOT . $code . "/" . $code.".".$cur.".out";
+				}
+				else
+					break;
+			}
+			for ($cur = 1; $cur < 100;$cur++)
+			{
+				if (file_exists(_PROBLEMROOT . $code . "/" ."I.".$cur) && file_exists(_PROBLEMROOT . $code . "/". "O.".$cur))
+				{
+					$inputfiles[] = _PROBLEMROOT . $code . "/". "I.".$cur;
+					$outputfiles[] = _PROBLEMROOT . $code . "/". "O.".$cur;
+				}
 				else
 					break;
 			}
 			for ($cur = 1; $cur < 100;$cur++)
 			{
 				if (file_exists(_PROBLEMROOT . $code . "/" . $code."-".$cur . ".in") && file_exists(_PROBLEMROOT . $code . "/".$code."-" . $cur . ".out"))
-					$inputfiles[] = _PROBLEMROOT . $code . "/" . $code."-".$cur;
+				{
+					$inputfiles[] = _PROBLEMROOT . $code . "/" . $code."-".$cur.".in";
+					$outputfiles[] = _PROBLEMROOT . $code . "/" . $code."-".$cur.".out";
+				}
 				else
 					break;
 			}
@@ -150,8 +170,8 @@ if (isset($_POST['isUpload']))
 				$all_res = "";
 				for ($i = 0; $i < count($inputfiles); $i++)
 				{
-					$inputf = $inputfiles[$i]. ".in";
-					$outputf = $inputfiles[$i]. ".out";
+					$inputf = $inputfiles[$i];
+					$outputf = $outputfiles[$i];
 					bypass_copy($inputf, _RUNJAIL . "input");
 					bypass_copy($output, _RUNJAIL . "exe");
 					$cmd = "echo '1' | sudo -S " . _SUPERVISOR . " --cpu " . $prob['timelimit'] . " --mem " . ($prob['memlimit'] * 1024) . " --inputfile input --outputfile " .  $outputf .
@@ -223,7 +243,7 @@ if (isset($_POST['isUpload']))
 				$tab = mysql_fetch_assoc($res2);
 				if ($finalCodeResult == "AC")
 				{
-					$query = "SELECT * FROM `submissions` WHERE res='AC' AND uid=".$_SESSION['uid'].";";
+					$query = "SELECT * FROM `submissions` WHERE res='AC' AND uid=".$_SESSION['uid']." AND `pid`=".$pid.";";
 					$res = mysql_query($query);
 					if (mysql_num_rows($res) == 1) //just submitted one as AC
 					{

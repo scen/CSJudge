@@ -55,7 +55,11 @@ require_once __ROOT__ . "/php/head.php";
 					echo 'ERROR';
 				}
 				$size = filesize($path);
-				echo htmlspecialchars(fread($fp, $size));
+				if ($prob["href_text"] != "")
+				{
+					echo "<a href='"._ROOT."res/".$prob['url_to_problem']."'>".$prob["href_text"]."</a><br/><br/>";
+				}
+				echo (fread($fp, $size));
 				fclose($fp);
 				?></pre>
 		</div>
@@ -66,13 +70,13 @@ require_once __ROOT__ . "/php/head.php";
 						Actions
 					</li>
 					<li>
-						<a href="<?php echo $_ROOT."submit/".$prob['code']; ?>"><i class="icon-upload"></i> Submit Solution</a>
+						<a href="<?php echo _ROOT."submit/".$prob['code']; ?>"><i class="icon-upload"></i> Submit Solution</a>
 					</li>
 					<li class="nav-header">
 						View Actions
 					</li>
 					<li>
-						<a href="#"><i class="icon-folder-open"></i> My Submissions</a>
+						<a href="#"><i class="icon-folder-open"></i> My Submi1ssions</a>
 					</li>
 					<li>
 						<a href="#"><i class="icon-thumbs-up"></i> Best Submissions</a>
