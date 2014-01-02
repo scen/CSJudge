@@ -118,8 +118,8 @@ if (isset($_POST['isUpload']))
 			{
 				if (file_exists(_PROBLEMROOT . $code . "/" . $cur . ".in") && file_exists(_PROBLEMROOT . $code . "/" . $cur . ".out"))
 				{
-					$inputfiles[] = _PROBLEMROOT . $code . "/" . $cur;
-					$outputfiles[] = _PROBLEMROOT . $code . "/" . $cur;
+					$inputfiles[] = _PROBLEMROOT . $code . "/" . $cur.".in";
+					$outputfiles[] = _PROBLEMROOT . $code . "/" . $cur.".out";
 				}
 				else
 					break;

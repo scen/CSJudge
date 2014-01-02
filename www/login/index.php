@@ -97,6 +97,7 @@ else if(isset($_POST['isRegister']) && $_POST['isRegister'] == "0")
 				$_SESSION['loggedin'] = true;
 				$_SESSION['username'] = $username;
 				$_SESSION['uid'] = $assoc['id'];
+				$_SESSION['admin'] = $assoc['admin'];
 				header("Location: ".$_ROOT);
 			}
 		}

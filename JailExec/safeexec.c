@@ -619,7 +619,7 @@ int main (int argc, char **argv, char **envp)
 			}
 			while (v == 0 );
 
-			#define MAX_BUF_SIZ 10000000
+			#define MAX_BUF_SIZ 100000000
 			#define AMT_PER_READ 1000
 			char *readbuf = (char*) malloc(MAX_BUF_SIZ);
 			memset(readbuf, 0, sizeof readbuf);

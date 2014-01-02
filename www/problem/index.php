@@ -47,6 +47,13 @@ require_once __ROOT__ . "/php/head.php";
 </div>
 <div class="row-fluid problem-section" style="width: 98%; margin: 0 auto;">
 		<div class="span10">
+			<?php
+			if ($prob['private'] != 1 || ($prob['private'] == 1 && $_SESSION['admin'] == 1))
+			{
+				?>
+				<div class="alert alert-info">
+					Make sure you read from standard input (stdin) and write to standard output (stdout). No opening files! Use printf/scanf for C, or cin/cout for C++.
+				</div>
 			<pre><?php
 				$path = _PROBLEMROOT . $prob['code'] . "/" . "problem.txt";
 				$fp = fopen($path, "r");
@@ -62,6 +69,9 @@ require_once __ROOT__ . "/php/head.php";
 				echo (fread($fp, $size));
 				fclose($fp);
 				?></pre>
+				<?php } else { ?>
+				<div class="alert alert-error">This problem is private.</div>
+				<?php } ?>
 		</div>
 		<div class="span2">
 			<div class="well" style="padding: 8px 0;">
@@ -76,7 +86,7 @@ require_once __ROOT__ . "/php/head.php";
 						View Actions
 					</li>
 					<li>
-						<a href="#"><i class="icon-folder-open"></i> My Submi1ssions</a>
+						<a href="#"><i class="icon-folder-open"></i> My Submissions</a>
 					</li>
 					<li>
 						<a href="#"><i class="icon-thumbs-up"></i> Best Submissions</a>
