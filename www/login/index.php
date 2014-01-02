@@ -161,7 +161,7 @@ else if(isset($_POST['isRegister']) && $_POST['isRegister'] == "0")
 		<div id="center_form">
 			<div class="span4">
 				<form class="well" id="login_form" action="." method="POST">
-					<div id="login_title"><h1>WCS Judge</h1></div>
+					<div id="login_title"><h1>Westview CS Judge</h1></div>
 					<?php
 					if (count($errors) > 0)
 					{
@@ -192,7 +192,9 @@ else if(isset($_POST['isRegister']) && $_POST['isRegister'] == "0")
 						<button class="btn" id="register_btn" type="button">Register</button>
 						<button id="submit" type="submit" class="btn btn-primary">Sign in</button>
 					</div>
-					<div class="copyright"><p style="margin-bottom: 0px;">Copyright 2012 &copy; Stanley Cen</p></div>
+					<div class="copyright"><p style="margin-bottom: 0px; padding-bottom: 0px;">Project hosted <a href="http://stanleycen.com/project/westview-coders/">here</a></p><p style="margin-bottom: 0px; padding-bottom: 0px;">Copyright 2012 - 2013 &copy; Stanley Cen</p>
+						
+					</div>
 				</form>
 			</div>
 		</div>
